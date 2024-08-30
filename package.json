@@ -1,0 +1,23 @@
+{
+  "name": "magical-mailbox",
+  "version": "0.0.1",
+  "module": "app.ts",
+  "type": "module",
+  "license": "MIT",
+  "description": "",
+  "peerDependencies": {
+    "typescript": "^5.5.4"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "dependencies": {
+    "grammy": "^1.29.0",
+    "sequelize": "^6.37.3",
+    "sqlite3": "^5.1.7"
+  },
+  "scripts": {
+    "start": "bun run src/app.ts",
+    "dev": "bun run --watch src/app.ts"
+  }
+}
