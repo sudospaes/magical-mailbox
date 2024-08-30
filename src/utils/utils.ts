@@ -1,4 +1,5 @@
-import fs from "fs/promises";
+import { config } from "dotenv";
+
 import { join } from "path";
 
 import database from "database";
@@ -18,11 +19,9 @@ export async function connectToDatabase() {
   }
 }
 
-export async function readConfigFile() {
-  const path = join(rootPath(), "config.json");
+export async function setupEnv() {
   try {
-    const buffer = await fs.readFile(path);
-    return JSON.parse(buffer.toString());
+    await config({ path: join(rootPath(), "config.env") });
   } catch (err) {
     console.log(err);
   }
