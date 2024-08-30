@@ -4,16 +4,16 @@ import database from "database";
 
 const Archive = database.define("Archive", {
   msgId: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     primaryKey: true,
     allowNull: false,
   },
   senderId: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
   senderMsgId: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
 });

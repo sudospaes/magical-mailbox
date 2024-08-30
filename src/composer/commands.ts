@@ -1,8 +1,7 @@
 import { Composer } from "grammy";
 
-import Archive from "models/archive";
-
 const commands = new Composer();
+const env = process.env;
 
 commands.command("start", (ctx) => {
   ctx.reply("Welcome to my magical mailbox 🪄");

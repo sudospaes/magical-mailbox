@@ -5,6 +5,7 @@ import Archive from "models/archive";
 const messages = new Composer();
 const env = process.env;
 
+// Handle reply messages
 messages.on("message", async (ctx, next) => {
   if (!ctx.msg.reply_to_message) {
     return next();
@@ -31,6 +32,7 @@ messages.on("message", async (ctx, next) => {
   }
 });
 
+// Handle messaging
 messages.on("message", async (ctx) => {
   try {
     const msg = await ctx.api.copyMessage(env.admin!, ctx.from.id, ctx.msgId);
@@ -44,6 +46,7 @@ messages.on("message", async (ctx) => {
   }
 });
 
+// Handle reaction on messages
 messages.on("message_reaction", async (ctx) => {
   try {
     const record: any = await Archive.findOne({
