@@ -3,6 +3,7 @@ import { Composer } from "grammy";
 import Archive from "models/archive";
 
 const edits = new Composer();
+const env = process.env;
 
 edits.on("edit:text", async (ctx, next) => {
   try {
@@ -10,7 +11,7 @@ edits.on("edit:text", async (ctx, next) => {
       where: { senderMsgId: ctx.msgId },
     });
     await ctx.api.editMessageText(
-      record.senderId,
+      env.admin!,
       record.msgId,
       ctx.editedMessage?.text!
     );
@@ -24,7 +25,7 @@ edits.on("edit:caption", async (ctx, next) => {
     const record: any = await Archive.findOne({
       where: { senderMsgId: ctx.msgId },
     });
-    await ctx.api.editMessageCaption(record.senderId, record.msgId, {
+    await ctx.api.editMessageCaption(env.admin!, record.msgId, {
       caption: ctx.editedMessage?.caption,
     });
   } catch (err) {
