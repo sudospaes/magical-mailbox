@@ -5,13 +5,15 @@ import Archive from "models/archive";
 const edits = new Composer();
 const env = process.env;
 
-edits.on("edit:text", async (ctx, next) => {
+edits.on("edit:text", async (ctx) => {
   try {
     const record: any = await Archive.findOne({
       where: { senderMsgId: ctx.msgId },
     });
+    const receiverId =
+      ctx.chat.id == record.receiverId ? record.senderId : record.receiverId;
     await ctx.api.editMessageText(
-      env.admin!,
+      receiverId,
       record.msgId,
       ctx.editedMessage?.text!
     );
@@ -25,7 +27,9 @@ edits.on("edit:caption", async (ctx, next) => {
     const record: any = await Archive.findOne({
       where: { senderMsgId: ctx.msgId },
     });
-    await ctx.api.editMessageCaption(env.admin!, record.msgId, {
+    const receiverId =
+      ctx.chat.id == record.receiverId ? record.senderId : record.receiverId;
+    await ctx.api.editMessageCaption(receiverId, record.msgId, {
       caption: ctx.editedMessage?.caption,
     });
   } catch (err) {

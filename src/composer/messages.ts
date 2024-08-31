@@ -9,7 +9,7 @@ const env = process.env;
 messages.on("message", async (ctx, next) => {
   try {
     const isSenderBlocked = await BlockList.findOne({
-      where: { senderId: ctx.chatId },
+      where: { senderId: ctx.from.id },
     });
     if (isSenderBlocked) {
       return ctx.reply("Sorry, You aren't allowed to send message 💔");
@@ -38,10 +38,12 @@ messages.on("message", async (ctx, next) => {
         reply_parameters: { message_id: record.senderMsgId },
       }
     );
+    const receiverId = ctx.from.id != +env.admin! ? env.admin : record.senderId;
     await Archive.create({
       msgId: msg.message_id,
       senderId: ctx.from.id,
       senderMsgId: ctx.msgId,
+      receiverId: receiverId,
     });
   } catch (err) {
     return ctx.reply("Oops, something wrong 😢");
@@ -52,10 +54,12 @@ messages.on("message", async (ctx, next) => {
 messages.on("message", async (ctx) => {
   try {
     const msg = await ctx.api.copyMessage(env.admin!, ctx.from.id, ctx.msgId);
+    const receiverId = ctx.from.id != +env.admin! ? env.admin : ctx.from.id;
     await Archive.create({
       msgId: msg.message_id,
       senderId: ctx.from.id,
       senderMsgId: ctx.msgId,
+      receiverId: receiverId,
     });
   } catch (err) {
     return ctx.reply("Oops, something wrong 😢");

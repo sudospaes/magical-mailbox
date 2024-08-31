@@ -16,6 +16,10 @@ const Archive = database.define("Archive", {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+  receiverId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
 });
 
 export default Archive;
