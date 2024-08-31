@@ -18,19 +18,15 @@ commands.command("start", (ctx) => {
 });
 
 commands.command("block", async (ctx) => {
-  if (ctx.chatId != +env.admin!) {
-    return ctx.reply("You are not owner");
-  }
-  if (!ctx.msg.reply_to_message) {
+  if (ctx.chatId != +env.admin!) return ctx.reply("You are not owner");
+  if (!ctx.msg.reply_to_message)
     return ctx.reply("Please reply on a message to block it sender");
-  }
   try {
     const record: any = await Archive.findOne({
       where: { msgId: ctx.msg.reply_to_message.message_id },
     });
-    if (record.senderId == +env.admin!) {
+    if (record.senderId == +env.admin!)
       return ctx.reply("Owner can't block itself");
-    }
     const isSenderBlocked = await BlockList.findOne({
       where: { senderId: record.senderId },
     });
@@ -41,24 +37,20 @@ commands.command("block", async (ctx) => {
       return ctx.reply("The sender blocked before");
     }
   } catch (err) {
-    return ctx.reply("Oops, something wrong 😢");
+    console.log(err);
   }
 });
 
 commands.command("unblock", async (ctx) => {
-  if (ctx.chatId != +env.admin!) {
-    return ctx.reply("You are not owner");
-  }
-  if (!ctx.msg.reply_to_message) {
+  if (ctx.chatId != +env.admin!) return ctx.reply("You are not owner");
+  if (!ctx.msg.reply_to_message)
     return ctx.reply("Please reply on a message to make unblock it sender");
-  }
   try {
     const record: any = await Archive.findOne({
       where: { msgId: ctx.msg.reply_to_message.message_id },
     });
-    if (record.senderId == +env.admin!) {
+    if (record.senderId == +env.admin!)
       return ctx.reply("Owner is free forever");
-    }
     const isSenderBlocked = await BlockList.findOne({
       where: { senderId: record.senderId },
     });
@@ -69,7 +61,7 @@ commands.command("unblock", async (ctx) => {
       return ctx.reply("The sender is already free");
     }
   } catch (err) {
-    return ctx.reply("Oops, something wrong 😢");
+    console.log(err);
   }
 });
 

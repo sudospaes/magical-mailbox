@@ -11,21 +11,17 @@ messages.on("message", async (ctx, next) => {
     const isSenderBlocked = await BlockList.findOne({
       where: { senderId: ctx.from.id },
     });
-    if (isSenderBlocked) {
+    if (isSenderBlocked)
       return ctx.reply("Sorry, You aren't allowed to send message 💔");
-    } else {
-      next();
-    }
+    else next();
   } catch (err) {
-    return ctx.reply("Oops, something wrong 😢");
+    console.log(err);
   }
 });
 
 // Handle reply messages
 messages.on("message", async (ctx, next) => {
-  if (!ctx.msg.reply_to_message) {
-    return next();
-  }
+  if (!ctx.msg.reply_to_message) return next();
   try {
     const record: any = await Archive.findOne({
       where: { msgId: ctx.msg.reply_to_message.message_id },
@@ -46,7 +42,7 @@ messages.on("message", async (ctx, next) => {
       receiverId: receiverId,
     });
   } catch (err) {
-    return ctx.reply("Oops, something wrong 😢");
+    console.log(err);
   }
 });
 
@@ -62,7 +58,7 @@ messages.on("message", async (ctx) => {
       receiverId: receiverId,
     });
   } catch (err) {
-    return ctx.reply("Oops, something wrong 😢");
+    console.log(err);
   }
 });
 
@@ -78,7 +74,7 @@ messages.on("message_reaction", async (ctx) => {
       ctx.messageReaction.new_reaction
     );
   } catch (err) {
-    return ctx.reply("Oops, something wrong 😢");
+    console.log(err);
   }
 });
 

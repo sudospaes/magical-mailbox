@@ -3,7 +3,6 @@ import { Composer } from "grammy";
 import Archive from "models/archive";
 
 const edits = new Composer();
-const env = process.env;
 
 edits.on("edit:text", async (ctx) => {
   try {
@@ -18,7 +17,7 @@ edits.on("edit:text", async (ctx) => {
       ctx.editedMessage?.text!
     );
   } catch (err) {
-    return ctx.reply("Oops, something wrong 😢");
+    console.log(err);
   }
 });
 
@@ -33,7 +32,7 @@ edits.on("edit:caption", async (ctx, next) => {
       caption: ctx.editedMessage?.caption,
     });
   } catch (err) {
-    return ctx.reply("Oops, something wrong 😢");
+    console.log(err);
   }
 });
 
