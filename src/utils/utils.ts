@@ -25,4 +25,12 @@ export async function setupEnv() {
   } catch (err) {
     console.log(err);
   }
+  if (!process.env.token) {
+    console.log("Bot token is not exist in the config file.");
+    process.exit(1);
+  }
+  if (!process.env.admin) {
+    console.log("Bot admin id is not not exist in the config file.");
+    process.exit(1);
+  }
 }
