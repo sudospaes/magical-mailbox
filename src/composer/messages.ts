@@ -1,9 +1,25 @@
-import { Composer, InputMediaBuilder } from "grammy";
+import { Composer } from "grammy";
 
 import Archive from "models/archive";
+import BlockList from "models/block-list";
 
 const messages = new Composer();
 const env = process.env;
+
+messages.on("message", async (ctx, next) => {
+  try {
+    const isSenderBlocked = await BlockList.findOne({
+      where: { senderId: ctx.chatId },
+    });
+    if (isSenderBlocked) {
+      return ctx.reply("Sorry, You aren't allowed to send message 💔");
+    } else {
+      next();
+    }
+  } catch (err) {
+    return ctx.reply("Oops, something wrong 😢");
+  }
+});
 
 // Handle reply messages
 messages.on("message", async (ctx, next) => {
