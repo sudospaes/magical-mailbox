@@ -8,7 +8,7 @@ const env = process.env;
 
 commands.command("start", (ctx) => {
   ctx.reply("Welcome to my magical mailbox 🪄");
-  ctx.reply(`My mailbox doese support:
+  ctx.reply(`My mailbox does support:
       💬 Text
       🔉 Voice/Audio
       🎞 Video/Video note
